@@ -1,4 +1,5 @@
-﻿using BookStoreApi.Models;
+﻿using BookStoreApi.Commands;
+using BookStoreApi.Models;
 using BookStoreApi.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,18 @@ namespace BookStoreApi.Controllers
             var author = await _mediator.Send(new GetAuthorByIdQuery() { Id = id });
 
             return author;
+        }
+
+        [HttpPost]
+        public async Task<Author> AddAuthorAsync(Author author)
+        {
+            var authorToAdd = await _mediator.Send(new CreateAuthorCommand(
+                author.Id,
+                author.Name,
+                author.Surname
+            ));
+
+            return authorToAdd;
         }
     }
 }
