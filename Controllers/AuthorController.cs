@@ -23,5 +23,13 @@ namespace BookStoreApi.Controllers
 
             return authors;
         }
+
+        [HttpGet("{id}")]
+        public async Task<Author> GetAuthorByIdAsync(int id)
+        {
+            var author = await _mediator.Send(new GetAuthorByIdQuery() { Id = id });
+
+            return author;
+        }
     }
 }
