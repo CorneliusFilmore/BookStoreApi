@@ -15,7 +15,7 @@ namespace BookStoreApi.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(_configuration.GetConnectionString("DefaultConnection"));
+            optionsBuilder.UseNpgsql(_configuration.GetConnectionString("ProdConnectionString"));
         }
         public DbSet<Book> Books { get; set; }
         public DbSet<Author> Authors { get; set; }
