@@ -41,8 +41,16 @@ namespace BookStoreApi.Controllers
                 author.Name,
                 author.Surname
             ));
-
+        
             return authorToAdd;
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<int> DeleteStudentAsync(int id)
+        {
+            var authorToDelete = await _mediator.Send(new DeleteAuthorCommand(id));
+
+            return authorToDelete;
         }
     }
 }
