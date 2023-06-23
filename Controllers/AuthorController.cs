@@ -2,13 +2,16 @@
 using BookStoreApi.Models;
 using BookStoreApi.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BookStoreApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthorController
+    public class AuthorController : ControllerBase
     {
         private readonly IMediator _mediator;
 
@@ -18,39 +21,57 @@ namespace BookStoreApi.Controllers
         }
 
         [HttpGet]
-        public async Task<List<Author>> GetAuthorListAsync()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAuthorListAsync()
         {
             var authors = await _mediator.Send(new GetAuthorListQuery());
 
-            return authors;
+            return Ok(authors);
         }
 
         [HttpGet("{id}")]
-        public async Task<Author> GetAuthorByIdAsync(int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetAuthorByIdAsync(int id)
         {
-            var author = await _mediator.Send(new GetAuthorByIdQuery() { Id = id });
+            var author = await _mediator.Send(new GetAuthorByIdQuery { Id = id });
 
-            return author;
+            if (author == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(author);
         }
 
         [HttpPost]
-        public async Task<Author> AddAuthorAsync(Author author)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> AddAuthorAsync(Author author)
         {
             var authorToAdd = await _mediator.Send(new CreateAuthorCommand(
                 author.Id,
                 author.Name,
                 author.Surname
             ));
-        
-            return authorToAdd;
+
+            return CreatedAtAction("GetAuthorById", "Author", new { id = authorToAdd.Id }, authorToAdd);
         }
 
+
         [HttpDelete("{id}")]
-        public async Task<int> DeleteStudentAsync(int id)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteAuthorAsync(int id)
         {
             var authorToDelete = await _mediator.Send(new DeleteAuthorCommand(id));
 
-            return authorToDelete;
+            if (authorToDelete == null)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
         }
     }
 }
