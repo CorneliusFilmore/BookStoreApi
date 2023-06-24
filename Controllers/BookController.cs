@@ -1,5 +1,6 @@
 ﻿using BookStoreApi.Commands;
 using BookStoreApi.Models;
+using BookStoreApi.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,6 +28,15 @@ namespace BookStoreApi.Controllers
                 book.Authors ));
 
             return Ok(bookToAdd);
+        }
+
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetBookListAsync()
+        {
+            var books = await _mediator.Send(new GetBookListQuery());
+            
+            return Ok(books);
         }
     }
 }
