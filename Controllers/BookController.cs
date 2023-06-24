@@ -16,7 +16,9 @@ namespace BookStoreApi.Controllers
         }
 
         [HttpPost]
-        public async Task<Book> AddBookAsync(Book book)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> AddBookAsync(Book book)
         {
             var bookToAdd = await _mediator.Send(new CreateBookCommand(
                 book.Id,
@@ -24,7 +26,7 @@ namespace BookStoreApi.Controllers
                 book.Description,
                 book.Authors ));
 
-            return bookToAdd;
+            return Ok(bookToAdd);
         }
     }
 }
