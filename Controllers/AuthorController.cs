@@ -83,7 +83,7 @@ namespace BookStoreApi.Controllers
            
             if (authorToUpdate == 0)
             {
-                return NotFound($"Author by the id does not exisit");
+                return NotFound($"Author by the id does not exist");
             }
             
             return Ok($"Author by the Id:{authorToUpdate} was updated");
