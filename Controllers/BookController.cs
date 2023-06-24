@@ -51,5 +51,20 @@ namespace BookStoreApi.Controllers
 
             return Ok(book);
         }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteBookAsync(int id)
+        {
+            var bookToDelete = await _mediator.Send(new DeleteBookCommand(id));
+
+            if (bookToDelete == null)
+            {
+                return NotFound($"Author by the id {bookToDelete} does not exisit");
+            }
+
+            return NoContent();
+        }
     }
 }
