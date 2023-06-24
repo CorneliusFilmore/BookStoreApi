@@ -38,5 +38,18 @@ namespace BookStoreApi.Controllers
             
             return Ok(books);
         }
+
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetBookByIdAsync(int id)
+        {
+            var book = await _mediator.Send(new GetBookByIdQuery() { Id = id });
+
+            if(book == null)
+                return NotFound($"Book with Id:{id} does not exisit");
+
+            return Ok(book);
+        }
     }
 }

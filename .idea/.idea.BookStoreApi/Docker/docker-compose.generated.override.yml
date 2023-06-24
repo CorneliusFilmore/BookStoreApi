@@ -1,0 +1,17 @@
+# This is a generated file. Not intended for manual editing.
+services:
+  api:
+    build:
+      context: "C:\\Users\\Reszt\\source\\repos\\BookStoreApi"
+      dockerfile: "Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net6.0/BookStoreApi.dll"
+    environment: {}
+    image: "bookstoreapi:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\Reszt\\source\\repos\\BookStoreApi:/app:rw"
+    working_dir: "/app"
