@@ -66,5 +66,20 @@ namespace BookStoreApi.Controllers
 
             return NoContent();
         }
+
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> UpdateBookAsync(Book book)
+        {
+            var bookToUpdate = await _mediator.Send(new UpdateBookCommand(book.Id, book.Title, book.Description, book.Authors));
+
+            if (bookToUpdate == 0)
+            {
+                return NotFound($"book by the id does not exist");
+            }
+
+            return Ok($"Author by the Id:{bookToUpdate} was updated");
+        }
     }
 }
