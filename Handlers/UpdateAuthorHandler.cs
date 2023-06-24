@@ -20,7 +20,7 @@ public class UpdateAuthorHandler : IRequestHandler<UpdateAuthorCommand,int>
 
         if (author == null)
         {
-            return default;
+            return 0;
         }
 
         author.Id = request.Id;

@@ -81,9 +81,9 @@ namespace BookStoreApi.Controllers
         {
             var authorToUpdate = await _mediator.Send(new UpdateAuthorCommand(author.Id, author.Name, author.Surname));
            
-            if (authorToUpdate == null)
+            if (authorToUpdate == 0)
             {
-                return NotFound($"Author by the id {authorToUpdate} does not exisit");
+                return NotFound($"Author by the id does not exisit");
             }
             
             return Ok($"Author by the Id:{authorToUpdate} was updated");
