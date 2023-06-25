@@ -44,19 +44,19 @@ namespace BookStoreApi.Controllers
             return Ok(author);
         }
 
-        [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> AddAuthorAsync(Author author)
-        {
-            var authorToAdd = await _mediator.Send(new CreateAuthorCommand(
-                author.Id,
-                author.Name,
-                author.Surname
-            ));
+            [HttpPost]
+            [ProducesResponseType(StatusCodes.Status201Created)]
+            [ProducesResponseType(StatusCodes.Status400BadRequest)]
+            public async Task<IActionResult> AddAuthorAsync(Author author)
+            {
+                var authorToAdd = await _mediator.Send(new CreateAuthorCommand(
+                    author.Id,
+                    author.Name,
+                    author.Surname
+                ));
 
-            return CreatedAtAction("GetAuthorById", "Author", new { id = authorToAdd.Id }, authorToAdd);
-        }
+                return CreatedAtAction("GetAuthorById", "Author", new { id = authorToAdd.Id }, authorToAdd);
+            }
 
 
         [HttpDelete("{id}")]
