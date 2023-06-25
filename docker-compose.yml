@@ -1,20 +1,16 @@
 ﻿networks:
-  dockerapi-dev:
+  dockerapi:
     driver: bridge
 
 services:
   postgres:
     container_name: postgres
     image: postgres:latest
-    environment:
-      - POSTGRES_USER=korni
-      - POSTGRES_PASSWORD=korni
-      - POSTGRES_DB=pg
     ports:
       - "5432:5432"
     restart: always
     networks:
-      - dockerapi-dev
+      - dockerapi
   
   api:
     build:
@@ -25,10 +21,9 @@ services:
     depends_on:
       - postgres
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=pg;User Id=korni;Password=korni;
+      - ConnectionStrings__DefaultConnection=${ConnectionStrings__ProdConnectionString};
     networks:
-      - dockerapi-dev
+      - dockerapi
 
   pgadmin:
     container_name: pgadmin
@@ -40,4 +35,4 @@ services:
       - "5050:80"
     restart: always
     networks:
-      - dockerapi-dev
+      - dockerapi
